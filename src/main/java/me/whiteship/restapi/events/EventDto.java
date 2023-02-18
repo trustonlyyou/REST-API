@@ -1,20 +1,19 @@
 package me.whiteship.restapi.events;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@EqualsAndHashCode(of = "id")
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-public class Event {
-    @Id @GeneratedValue
-    private Integer id;
+@NoArgsConstructor @AllArgsConstructor
+@Data
+public class EventDto {
+    // Entity 에 어노테이션이 너무 많아서 햇갈릴 수 있다. -> 분산을 위해서 입력 값을 받는 DTO 를 다로 뺐다.
+    // 단점은 중복이 생긴다.
+
     private String name;
     private String description;
     private LocalDateTime beginEnrollmentDateTime;
@@ -25,10 +24,4 @@ public class Event {
     private int basePrice; // (optional)
     private int maxPrice; // (optional)
     private int limitOfEnrollment;
-    private boolean offline;
-    private boolean free;
-    @Enumerated(EnumType.STRING)
-    // Enum 에 순서대로 0, 1, 2 로 부여된다.
-    // 이것 보단 String 으로 값으로 저장 되는 것이 명확해서 보기 좋다고 생각
-    private EventStatus eventStatus = EventStatus.DRAFT;
 }
