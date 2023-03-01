@@ -34,13 +34,14 @@ public class EventController {
     public ResponseEntity createEvent(@RequestBody @Valid EventDto eventDto, Errors errors) {
 
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().build();
+            // Errors 는 Java Bean 스팩을 준수하고 있지 않기 때문에 body 에 담을 수 없다.
+            return ResponseEntity.badRequest().body(errors);
         }
 
         eventValidator.validate(eventDto, errors);
 
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(errors);
         }
 
         // Model Mapper 를 이용해서 Dto -> Entity 로 변환 시켜 줄 것이다.
