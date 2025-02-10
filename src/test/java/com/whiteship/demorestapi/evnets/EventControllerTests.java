@@ -130,14 +130,17 @@ public class EventControllerTests {
                 .location("강남역 D2 스타텁 팩토리")
                 .build();
 
-//        Mockito.when(eventRepository.save(event)).thenReturn(event);
-
         mockMvc.perform(post("/api/events")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaTypes.HAL_JSON)
                         .content(objectMapper.writeValueAsString(event)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].objectName").exists())
+//                .andExpect(jsonPath("$[0].field").exists())
+                .andExpect(jsonPath("$[0].defaultMessage").exists())
+                .andExpect(jsonPath("$[0].code").exists())
+//                .andExpect(jsonPath("$[0].rejectValue").exists())
         ;
     }
 }
