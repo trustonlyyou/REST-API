@@ -3,6 +3,7 @@ package com.whiteship.demorestapi.evnets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ public class EventControllerTests {
 //    EventRepository eventRepository;
 
     @Test
+    @DisplayName("정상적으로 이벤트를 생성하는 테스트")
     public void createEvents() throws Exception {
         EventDto event = EventDto.builder()
                 .name("Spring")
@@ -69,6 +71,7 @@ public class EventControllerTests {
     }
 
     @Test
+    @DisplayName("입력 받을 수 없는 값이 사용하는 경우에 에러가 발생하는 테스트")
     public void createEvents_BadRequest() throws Exception {
         Event event = Event.builder()
                 .id(100)
@@ -99,6 +102,7 @@ public class EventControllerTests {
     }
 
     @Test
+    @DisplayName("입력 값이 비어있는 경우에 에러가 발생하는 테스트")
     public void createEvents_Bad_Request_Empty_Input() throws Exception {
         EventDto eventDto = EventDto.builder().build();
 
@@ -111,6 +115,7 @@ public class EventControllerTests {
     }
 
     @Test
+    @DisplayName("입력 값이 잘못된 경우에 에러가 발생하는 테스트")
     public void createEvents_BadRequest_Wrong_Input() throws Exception {
         EventDto event = EventDto.builder()
                 .name("Spring")
