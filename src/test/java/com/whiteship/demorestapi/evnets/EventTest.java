@@ -1,9 +1,15 @@
 package com.whiteship.demorestapi.evnets;
 
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@RunWith(JUnitParamsRunner.class)
 public class EventTest {
 
     @Test
@@ -32,39 +38,33 @@ public class EventTest {
     }
 
     @Test
-    public void testFree() {
+//    @ParameterizedTest
+//    @CsvSource({
+//            "0, 0, true",
+//            "100, 0, false",
+//            "0, 100, false"
+//    })
+    @Parameters(method = "parameterForTestFee")
+    public void testFree(int basePrice, int maxPrice, boolean isFree) {
         // Given
         Event event = Event.builder()
-                .basePrice(0)
-                .maxPrice(0)
+                .basePrice(basePrice)
+                .maxPrice(maxPrice)
                 .build();
         // When
         event.update();
 
         // Then
-        assertThat(event.isFree()).isTrue();
+        assertThat(event.isFree()).isEqualTo(isFree);
+    }
 
-        // Given
-        event = Event.builder()
-                .basePrice(100)
-                .maxPrice(0)
-                .build();
-        // When
-        event.update();
-
-        // Then
-        assertThat(event.isFree()).isFalse();
-
-        // Given
-        event = Event.builder()
-                .basePrice(0)
-                .maxPrice(100)
-                .build();
-        // When
-        event.update();
-
-        // Then
-        assertThat(event.isFree()).isFalse();
+    private Object[] parameterForTestFee() {
+        return new Object[]{
+                new Object[]{0, 0, true},
+                new Object[]{100, 0, false},
+                new Object[]{0, 100, false},
+                new Object[]{200, 100, false},
+        };
     }
 
     @Test
